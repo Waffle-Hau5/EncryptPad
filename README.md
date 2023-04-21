@@ -3,10 +3,12 @@
 
 -A default key is hardcoded.
 
--New encryption key generation.
+-New encryption key generation for added security and advanced users.
 
--GUI, encrypt, decrypt, save, and load options.
+-GUI
+
+-Encrypt, decrypt, save, and load options/buttons.
 
 -Can be used to store sensitive information in a secure manor. 
 
--If you do decide to create a new encryption key, make sure you document it for later use as that is the only way you can decrypt the text again.
+-If you do decide to generate a new encryption key, make sure you document it for later use as that is the only way you can decrypt the text again.
