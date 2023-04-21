@@ -90,13 +90,8 @@ class EncryptPad(tk.Frame):
 
 
     def generate_key(self):
-        # Generate a new key
         key = Fernet.generate_key()
-
-        # Set the key variable
         self.key_var.set(key.decode())
-
-        # Update the key label
         self.key_label_var.set("Encryption Key: " + self.key_var.get())
 
 
