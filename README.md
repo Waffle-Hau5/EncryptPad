@@ -22,3 +22,5 @@ Better GUI design.
 An executable for Linux, macOS and Windows.
 
 An option to encrypt entire files.
+
+The beta is broken, but will have many other features in the future.
