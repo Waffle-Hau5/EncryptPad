@@ -31,18 +31,12 @@ class EncryptPad(tk.Frame):
         self.key_var = tk.StringVar()
         self.key_var.set("vyJpTGa-ebn9GJdKvzY1I_RQ2n0xMxWQf_wLPBkC-zc=")
         key_label = tk.Label(key_frame, text="Key:")
-        key_label.pack(side=tk.LEFT, padx=5)
-        self.key_entry = tk.Entry(key_frame, textvariable=self.key_var, width=50)
-        self.key_entry.pack(side=tk.LEFT, padx=5)
 
         key_button_frame = tk.Frame(key_frame)
         key_button_frame.pack(side=tk.RIGHT, padx=5, pady=5)
 
         new_key_frame = tk.Frame(key_frame)
         new_key_frame.pack(side=tk.RIGHT, padx=2, pady=5)
-
-        generate_key_button = tk.Button(new_key_frame, text="Generate New Key", command=self.generate_key)
-        generate_key_button.pack(side=tk.LEFT, padx=1)
 
         key_label_frame = tk.Frame(main_frame)
         key_label_frame.pack(side=tk.BOTTOM, fill=tk.X)
@@ -58,6 +52,11 @@ class EncryptPad(tk.Frame):
         decrypt_button = tk.Button(button_frame, text="Decrypt", command=self.decrypt_file)
         decrypt_button.pack(side=tk.LEFT, padx=10, pady=5)
 
+        buttonx = tk.Button(self, text="Advanced", command=self.advanced_settings)
+        buttonx.pack(side=tk.RIGHT, padx=5, pady=5)
+
+        self.key_label_var = tk.StringVar()
+        self.key_label_var.set("Encryption Key: " + self.key_var.get())
 
     def save_file(self):
         file_path = filedialog.asksaveasfilename(defaultextension=".txt", filetypes=[("Text Files", "*.txt"), ("All Files", "*.*")])
@@ -74,6 +73,10 @@ class EncryptPad(tk.Frame):
                 self.textarea.delete(1.0, tk.END)
                 self.textarea.insert(tk.END, text)
 
+    def advanced_settings(self):
+        Popup()
+
+
     def encrypt_file(self):
         key = self.key_var.get().encode()
         f = Fernet(key)
@@ -87,14 +90,60 @@ class EncryptPad(tk.Frame):
         decrypted_text = f.decrypt(self.textarea.get(1.0, tk.END).encode())
         self.textarea.delete(1.0, tk.END)
         self.textarea.insert(tk.END, decrypted_text.decode())
-
-
     def generate_key(self):
         key = Fernet.generate_key()
         self.key_var.set(key.decode())
         self.key_label_var.set("Encryption Key: " + self.key_var.get())
 
 
+
+
+class Popup(tk.Toplevel):
+    def __init__(self, master=None):
+        super().__init__(master)
+        self.title("Advanced Settings")
+
+        # Create a label with instructions
+        label = tk.Label(self, text='''These settings are for advanced users, 
+                typically there is a secure key that you do not need to reset, but that is less secure.
+                If you do decide to create a custom key with generate, it is imperative for you to write it down 
+                or put it somewhere secure. Reopen advanced settings to paste or write
+                your new key, or else that note is gone forever.''')
+        label.pack(side=tk.TOP, padx=5, pady=5)
+
+        # Create a frame to hold the key entry and label widgets
+        key_frame = tk.Frame(self)
+        key_frame.pack(side=tk.TOP, fill=tk.X, padx=5, pady=5)
+
+
+        self.key_var = tk.StringVar()
+        self.key_var.set("vyJpTGa-ebn9GJdKvzY1I_RQ2n0xMxWQf_wLPBkC-zc=")
+        key_label = tk.Label(key_frame, text="Key:")
+        key_label.pack(side=tk.LEFT, padx=5)
+        self.key_entry = tk.Entry(key_frame, textvariable=self.key_var, width=50)
+        self.key_entry.pack(side=tk.LEFT, padx=5)
+
+        
+        button = tk.Button(key_frame, text="Generate Key", command= self.generate_key)
+        button.pack(side=tk.RIGHT, padx=5, pady=5)
+
+
+        button = tk.Button(key_frame, text="EXIT WINDOW", command=self.ok_button)
+        button.pack(side=tk.BOTTOM, padx=5, pady=5)
+
+        
+    def ok_button(self):
+        self.key = self.key_entry.get()
+        self.destroy()
+
+
+    def generate_key(self):
+        key = Fernet.generate_key()
+        self.key_var = tk.StringVar()
+        self.key_var.set("vyJpTGa-ebn9GJdKvzY1I_RQ2n0xMxWQf_wLPBkC-zc=")
+        self.key_var.set(key.decode())
+
+        
 if __name__ == '__main__':
     root = tk.Tk()
     app = EncryptPad(master=root)
