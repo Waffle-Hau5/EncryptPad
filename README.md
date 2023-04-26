@@ -21,6 +21,8 @@ Better GUI design.
 
 An executable for Linux, macOS and Windows.
 
-An option to encrypt entire files.
+An option in advanced options to increase layers of encryption with multiple types.
+
+Identity features, a private key to proove it is your note.
 
 The beta is broken, but will have many other features in the future.
